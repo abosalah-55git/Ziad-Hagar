@@ -1,0 +1,2335 @@
+
+/* ============================================================
+   حكايتنا | Ziad ♥ Hagar
+   ملف التنسيقات الرئيسي style.css
+
+   الفهرس:
+   01. الألوان والخطوط والإعدادات العامة
+   02. الخلفية والتأثيرات البصرية
+   03. الأزرار
+   04. شاشة الهدية
+   05. صندوق الهدية وأنيميشن الفتح
+   06. مشغل الموسيقى
+   07. المحتوى الرئيسي والعناوين
+   08. العدادات
+   09. معرض الصور
+   10. الخط الزمني للذكريات
+   11. الرسالة والظرف
+   12. الخاتمة وزر العودة للأعلى
+   13. نافذة تكبير الصور
+   14. تأثيرات الظهور
+   15. لوحة كلمة المرور
+   16. الشاشات الصغيرة
+   17. تقليل الحركة
+   ============================================================ */
+
+
+/* ============================================================
+   01. الألوان والخطوط والإعدادات العامة
+   عدّل القيم هنا لتغيير الهوية البصرية للموقع بالكامل
+   ============================================================ */
+
+:root {
+  /* الألوان الأساسية */
+  --plum: #1f0a17;
+  --burgundy: #4a1428;
+  --burgundy-2: #6b1f3a;
+  --dusty: #c98b9b;
+  --blush: #f4d6d9;
+  --cream: #fbf1e4;
+  --gold: #d6ae66;
+  --gold-deep: #a8803a;
+  --heart: #ff5c7a;
+
+  /* ألوان إضافية للتأثيرات الرومانسية */
+  --love-pink: #ff5caa;
+  --love-gold: #f4cf83;
+
+  /* الخطوط */
+  --font-ar: "Tajawal", system-ui, sans-serif;
+  --font-script: "Aref Ruqaa", serif;
+  --font-en: "Cormorant Garamond", Georgia, serif;
+
+  /* المسافات */
+  --sp-1: 0.5rem;
+  --sp-2: 1rem;
+  --sp-3: 1.5rem;
+  --sp-4: 2.5rem;
+  --sp-5: 4rem;
+
+  /* الحواف والظلال */
+  --radius: 16px;
+  --shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+
+  /* مراعاة المساحات الآمنة في الموبايل */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+}
+
+
+/* إعدادات عامة لكل العناصر */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  font-family: var(--font-ar);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--cream);
+
+  background:
+    linear-gradient(
+      180deg,
+      var(--burgundy) 0%,
+      var(--plum) 55%
+    ) fixed;
+
+  /* حركة بطيئة للخلفية */
+  background-size: 200% 200%;
+  animation: romanticBackground 18s ease-in-out infinite;
+}
+
+/* إيقاف تمرير الصفحة عند فتح نافذة تحتاج ذلك */
+body.no-scroll {
+  overflow: hidden;
+}
+
+/* احترام خاصية hidden في HTML */
+[hidden] {
+  display: none !important;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.5;
+}
+
+/* إظهار إطار واضح عند استخدام لوحة المفاتيح */
+
+:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+
+/* ============================================================
+   02. الخلفية والتأثيرات البصرية
+   تشمل الإضاءة والقلوب واللمعات
+   ============================================================ */
+
+/* حركة ألوان الخلفية */
+
+@keyframes romanticBackground {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* طبقات التأثيرات التي لا تعيق الضغط على الصفحة */
+
+.ambient,
+.burst-layer {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.ambient {
+  z-index: 0;
+}
+
+.burst-layer {
+  z-index: 30;
+}
+
+/* دوائر الإضاءة في الخلفية */
+
+.orb {
+  position: absolute;
+  width: 70vmax;
+  height: 70vmax;
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(201, 139, 155, 0.22),
+      rgba(201, 139, 155, 0) 65%
+    );
+
+  animation: drift 28s ease-in-out infinite alternate;
+}
+
+.orb-a {
+  top: -25vmax;
+  inset-inline-start: -20vmax;
+}
+
+.orb-b {
+  bottom: -30vmax;
+  inset-inline-end: -25vmax;
+  animation-delay: -12s;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(214, 174, 102, 0.14),
+      rgba(214, 174, 102, 0) 65%
+    );
+}
+
+/* تحريك الإضاءة ببطء */
+
+@keyframes drift {
+  to {
+    transform: translate3d(8vmax, 6vmax, 0) scale(1.1);
+  }
+}
+
+/* القلوب المتحركة */
+
+.fx-heart {
+  position: absolute;
+  bottom: -40px;
+
+  color: var(--heart);
+  opacity: 0;
+
+  animation: float-up linear forwards;
+}
+
+@keyframes float-up {
+  0% {
+    transform: translateY(0) rotate(0);
+    opacity: 0;
+  }
+
+  12% {
+    opacity: 0.4;
+  }
+
+  100% {
+    transform: translateY(-112vh) rotate(20deg);
+    opacity: 0;
+  }
+}
+
+/* اللمعات الصغيرة */
+
+.fx-spark {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+
+  background: var(--gold);
+  box-shadow: 0 0 8px 2px rgba(214, 174, 102, 0.7);
+
+  opacity: 0;
+  animation: twinkle 2.6s ease-in-out forwards;
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+
+  50% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+}
+
+/* تأثير القلوب عند انفجارها */
+
+.burst-layer .fx-heart {
+  opacity: 1;
+  color: #ff6b88;
+  animation-name: burst-up;
+}
+
+@keyframes burst-up {
+  to {
+    transform: translateY(-115vh) rotate(25deg);
+    opacity: 0;
+  }
+}
+
+
+/* ============================================================
+   03. الأزرار
+   الأزرار الذهبية والشفافة وتأثيرات الضغط
+   ============================================================ */
+
+.btn {
+  position: relative;
+  overflow: hidden;
+
+  min-height: 48px;
+  padding: 0.75rem 2rem;
+
+  border: 0;
+  border-radius: 999px;
+
+  font-family: inherit;
+  font-size: 1.1rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    opacity 0.2s ease,
+    filter 0.3s ease;
+}
+
+/* الزر الذهبي */
+
+.btn-gold {
+  color: var(--burgundy);
+
+  background:
+    linear-gradient(
+      180deg,
+      #f0d08e,
+      var(--gold)
+    );
+
+  box-shadow: 0 8px 24px rgba(214, 174, 102, 0.3);
+}
+
+/* الزر الشفاف */
+
+.btn-ghost {
+  color: var(--burgundy);
+  background: transparent;
+
+  border: 1.5px solid var(--burgundy-2);
+
+  font-size: 1rem;
+  padding: 0.55rem 1.4rem;
+}
+
+.btn-ghost:hover {
+  background: rgba(107, 31, 58, 0.08);
+}
+
+/* اللمعة التي تمر على الزر */
+
+.btn::after {
+  content: "";
+
+  position: absolute;
+  top: -50%;
+  left: -100%;
+
+  width: 55%;
+  height: 200%;
+
+  transform: rotate(25deg);
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.35),
+      transparent
+    );
+
+  transition: left 0.7s ease;
+  pointer-events: none;
+}
+
+/* تشغيل تأثير اللمعة عند المرور */
+
+@media (hover: hover) {
+  .btn:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.08);
+    box-shadow: 0 10px 30px rgba(232, 184, 94, 0.25);
+  }
+
+  .btn:hover::after {
+    left: 150%;
+  }
+
+  .btn-gold:hover {
+    box-shadow: 0 12px 28px rgba(214, 174, 102, 0.45);
+  }
+
+  .btn-ghost:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* تأثير الضغط */
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+/* الزر غير المتاح */
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+  transform: none;
+}
+
+
+/* ============================================================
+   04. شاشة الهدية
+   الأسماء والعبارة وزر فتح الهدية
+   ============================================================ */
+
+.gift-screen {
+  position: relative;
+  z-index: 1;
+
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 1.4rem;
+  padding:
+    calc(1.5rem + var(--safe-top))
+    1rem
+    calc(1.5rem + var(--safe-bottom));
+
+  text-align: center;
+
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s ease;
+}
+
+/* الحركة عند الانتقال من شاشة الهدية */
+
+.gift-screen.leaving {
+  opacity: 0;
+  transform: translateY(-24px);
+}
+
+/* أسماء زياد وهاجر */
+
+.names {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+
+  font-family: var(--font-en);
+  font-weight: 700;
+  font-size: clamp(2.4rem, 11vw, 4.6rem);
+  line-height: 1.1;
+
+  color: var(--cream);
+}
+
+/* نبض القلب */
+
+.heart {
+  display: inline-block;
+  color: var(--heart);
+  font-size: 0.75em;
+
+  transform-origin: center;
+  animation: heartBeat 1.8s ease-in-out infinite;
+}
+
+@keyframes heartBeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  14% {
+    transform: scale(1.18);
+  }
+
+  28% {
+    transform: scale(1);
+  }
+
+  42% {
+    transform: scale(1.12);
+  }
+}
+
+/* العبارة أعلى الصندوق */
+
+.gift-subtitle {
+  max-width: 20em;
+
+  font-family: var(--font-script);
+  font-size: clamp(1.15rem, 4.6vw, 1.5rem);
+
+  color: var(--blush);
+}
+
+
+/* ============================================================
+   05. صندوق الهدية وأنيميشن الفتح
+   يحتوي على جسم الصندوق والغطاء والفيونكة واللمعة
+   ============================================================ */
+
+/* حجم الصندوق ومكانه */
+
+.box {
+  position: relative;
+
+  width: min(250px, 64vw, 38vh);
+  aspect-ratio: 1 / 0.95;
+
+  margin-top: 2.6rem;
+
+  transform-origin: center bottom;
+  will-change: transform;
+
+  /* حركة رومانسية هادئة قبل فتح الهدية */
+  animation: romanticGift 3s ease-in-out infinite;
+}
+
+/* حركة الصندوق: ارتفاع بسيط وميلان خفيف */
+
+@keyframes romanticGift {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+
+  25% {
+    transform: translateY(-7px) rotate(-2deg) scale(1.015);
+  }
+
+  50% {
+    transform: translateY(-11px) rotate(0deg) scale(1.025);
+  }
+
+  75% {
+    transform: translateY(-7px) rotate(2deg) scale(1.015);
+  }
+}
+
+/* جسم الصندوق */
+
+.body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  height: 68%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      160deg,
+      var(--burgundy-2),
+      #4a1428
+    );
+
+  border-radius: 6px 6px 14px 14px;
+  box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5);
+}
+
+/* الشريط الذهبي على جسم الصندوق والغطاء */
+
+.body-ribbon,
+.lid-ribbon {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+
+  width: 22%;
+
+  transform: translateX(-50%);
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--gold-deep),
+      var(--gold),
+      var(--gold-deep)
+    );
+}
+
+/* بطاقة حكايتنا */
+
+.tag {
+  position: relative;
+  z-index: 2;
+
+  padding: 0.25rem 1.2rem;
+
+  border-radius: 4px;
+
+  font-family: var(--font-script);
+  font-weight: 700;
+  font-size: clamp(1.3rem, 6vw, 2rem);
+  line-height: 1.4;
+
+  color: var(--burgundy);
+  background: var(--cream);
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* غطاء الصندوق */
+
+.lid {
+  position: absolute;
+  top: 0;
+  left: -5%;
+  right: -5%;
+
+  height: 36%;
+  z-index: 3;
+
+  background:
+    linear-gradient(
+      160deg,
+      #82304e,
+      var(--burgundy-2)
+    );
+
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35);
+
+  transform-origin: left bottom;
+
+  transition:
+    transform 1.1s cubic-bezier(0.5, -0.4, 0.3, 1.2);
+}
+
+/* الشريط الموجود على الغطاء */
+
+.lid-ribbon {
+  width: 20%;
+}
+
+/* الفيونكة */
+
+.bow {
+  position: absolute;
+  left: 50%;
+  top: -30px;
+
+  width: 0;
+  height: 0;
+}
+
+.bow i {
+  position: absolute;
+  top: 0;
+
+  width: 46px;
+  height: 32px;
+
+  border: 8px solid var(--gold);
+  border-radius: 50% 50% 50% 0;
+}
+
+.bow i:first-child {
+  left: -50px;
+  transform: rotate(-20deg);
+}
+
+.bow i:nth-child(2) {
+  left: 4px;
+  transform: scaleX(-1) rotate(-20deg);
+}
+
+.bow b {
+  position: absolute;
+  left: -9px;
+  top: 12px;
+
+  width: 18px;
+  height: 18px;
+
+  border-radius: 50%;
+  background: var(--gold-deep);
+}
+
+/* الإضاءة المحيطة بالصندوق */
+
+.glow {
+  position: absolute;
+  left: 5%;
+  right: 5%;
+  top: 10%;
+
+  height: 70%;
+  z-index: 1;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 226, 160, 0.95),
+      rgba(255, 226, 160, 0) 70%
+    );
+
+  opacity: 0.35;
+
+  transition:
+    opacity 0.8s ease,
+    filter 0.8s ease;
+
+  animation: romanticGlow 3s ease-in-out infinite;
+}
+
+/* تغير شدة اللمعة */
+
+@keyframes romanticGlow {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.5);
+  }
+}
+
+/* حركة الغطاء عند فتح الصندوق */
+
+.box.open .lid {
+  transform: translate(-18%, -130%) rotate(-28deg);
+}
+
+/* زيادة الإضاءة عند فتح الهدية */
+
+.box.open .glow {
+  opacity: 1;
+  animation: none;
+}
+
+/* إيقاف حركة الصندوق عند فتحه */
+
+.box.open {
+  animation: none;
+}
+
+
+/* ============================================================
+   06. مشغل الموسيقى
+   الزر والأسطوانة وحالة التشغيل والرسائل
+   ============================================================ */
+
+.music-player {
+  position: fixed;
+  z-index: 20;
+
+  bottom: calc(14px + var(--safe-bottom));
+  inset-inline-start: calc(14px + var(--safe-left));
+
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* زر تشغيل الموسيقى */
+
+.music-btn {
+  position: relative;
+
+  width: 58px;
+  height: 58px;
+
+  display: grid;
+  place-items: center;
+
+  padding: 0;
+
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+
+  background: var(--plum);
+  cursor: pointer;
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* أسطوانة الموسيقى */
+
+.vinyl {
+  width: 46px;
+  height: 46px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      transparent 0 30%,
+      rgba(255, 255, 255, 0.07) 31% 33%,
+      transparent 34% 52%,
+      rgba(255, 255, 255, 0.06) 53% 55%,
+      transparent 56%
+    ),
+    conic-gradient(
+      #150610,
+      #3a1a2b,
+      #150610,
+      #3a1a2b,
+      #150610
+    );
+
+  animation: spin 5s linear infinite;
+  animation-play-state: paused;
+}
+
+/* دوران الأسطوانة عند التشغيل */
+
+.music-btn.playing .vinyl {
+  animation-play-state: running;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* الدائرة الموجودة في منتصف الأسطوانة */
+
+.vinyl-label {
+  width: 18px;
+  height: 18px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: var(--gold);
+  color: var(--burgundy);
+
+  font-size: 0.7rem;
+  line-height: 1;
+}
+
+/* رمز التشغيل والإيقاف */
+
+.music-state {
+  position: absolute;
+  bottom: -4px;
+  inset-inline-end: -4px;
+
+  width: 22px;
+  height: 22px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: var(--gold);
+  color: var(--burgundy);
+
+  font-size: 0.6rem;
+}
+
+/* رسالة حالة مشغل الموسيقى */
+
+.music-msg {
+  max-width: 200px;
+  padding: 0.5rem 0.9rem;
+
+  border-radius: 12px;
+
+  background: var(--cream);
+  color: var(--burgundy);
+
+  font-size: 0.9rem;
+  line-height: 1.5;
+
+  box-shadow: var(--shadow);
+}
+
+/* تأثير زر الموسيقى */
+
+@media (hover: hover) {
+  .music-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 25px rgba(232, 184, 94, 0.3);
+  }
+}
+
+/* توهج بسيط للزر */
+
+#music-player .music-btn {
+  animation: musicGlow 3s ease-in-out infinite;
+}
+
+@keyframes musicGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(255, 92, 170, 0);
+  }
+
+  50% {
+    box-shadow: 0 0 22px rgba(255, 92, 170, 0.22);
+  }
+}
+
+
+/* ============================================================
+   07. المحتوى الرئيسي والعناوين
+   الأقسام والمقدمة والعناوين المشتركة
+   ============================================================ */
+
+/* الحاوية الرئيسية */
+
+.content {
+  position: relative;
+  z-index: 1;
+
+  max-width: 680px;
+  margin: 0 auto;
+
+  padding:
+    calc(var(--sp-5) + var(--safe-top))
+    calc(1.1rem + var(--safe-right))
+    calc(6rem + var(--safe-bottom))
+    calc(1.1rem + var(--safe-left));
+}
+
+/* إخفاء المحتوى قبل فتح الهدية عندما يكون JavaScript متاحًا */
+
+.js .content {
+  display: none;
+}
+
+/* إظهار المحتوى بعد إضافة revealed */
+
+.js .content.revealed {
+  display: block;
+  animation: fade-in 1.2s ease both;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* المسافة بين أقسام الموقع */
+
+.section {
+  margin-top: var(--sp-5);
+}
+
+/* عناوين الأقسام */
+
+.section > h2 {
+  margin-bottom: var(--sp-3);
+
+  font-family: var(--font-script);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 6.5vw, 2.2rem);
+  text-align: center;
+
+  color: var(--blush);
+}
+
+/* المقدمة */
+
+.intro {
+  text-align: center;
+}
+
+/* أسماء الحبيبين في المقدمة */
+
+.intro-names {
+  color: var(--dusty);
+
+  font-family: var(--font-en);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.9rem;
+
+  animation: elegantReveal 1s ease 0.1s both;
+}
+
+.intro-names span,
+.final-names span {
+  color: var(--heart);
+}
+
+/* عنوان حكايتنا */
+
+.intro h1 {
+  color: var(--cream);
+
+  font-family: var(--font-script);
+  font-weight: 700;
+  font-size: clamp(3rem, 16vw, 5rem);
+  line-height: 1.3;
+
+  text-shadow: 0 0 30px rgba(214, 174, 102, 0.35);
+
+  animation: elegantReveal 1s ease 0.25s both;
+}
+
+/* النص أسفل عنوان المقدمة */
+
+.intro-text {
+  max-width: 24em;
+  margin: 0.5rem auto 0;
+
+  color: var(--blush);
+
+  animation: elegantReveal 1s ease 0.4s both;
+}
+
+/* حركة ظهور المقدمة */
+
+@keyframes elegantReveal {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+    filter: blur(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+
+/* ============================================================
+   08. العدادات
+   عداد مدة الحكاية وعداد المناسبة السنوية
+   ============================================================ */
+
+/* ترتيب وحدات العدادات: ثلاث وحدات ثم الثواني في سطر مستقل */
+
+#counter,
+#anniv .counter-mini {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+/* تصميم كل وحدة */
+
+.unit {
+  min-width: 0;
+  padding: 0.9rem 0.2rem 0.7rem;
+
+  border: 1px solid rgba(214, 174, 102, 0.45);
+  border-radius: var(--radius);
+
+  text-align: center;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.07),
+      rgba(255, 255, 255, 0.02)
+    );
+
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+
+  position: relative;
+  isolation: isolate;
+}
+
+/* الأرقام داخل العدادات */
+
+.unit strong {
+  display: block;
+
+  color: var(--gold);
+
+  font-family: var(--font-en);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 8vw, 2.6rem);
+  line-height: 1.15;
+
+  font-variant-numeric: tabular-nums;
+  direction: ltr;
+}
+
+/* حركة الرقم عندما يحدّثه JavaScript */
+
+.unit strong.bump {
+  animation: bump 0.35s ease;
+}
+
+@keyframes bump {
+  40% {
+    transform: translateY(-4px) scale(1.08);
+  }
+}
+
+/* وصف الوحدة */
+
+.unit span {
+  color: var(--blush);
+  font-size: 0.9rem;
+}
+
+/* الثواني في سطر مستقل */
+
+#counter .unit:last-child,
+#anniv .counter-mini .unit:last-child {
+  grid-column: 1 / -1;
+  width: 100%;
+
+  border-color: rgba(244, 207, 131, 0.45);
+
+  background-image:
+    linear-gradient(
+      135deg,
+      rgba(255, 92, 170, 0.09),
+      rgba(244, 207, 131, 0.12)
+    );
+
+  transform-origin: center;
+  animation: secondsHeartbeat 1.2s ease-in-out infinite;
+}
+
+/* نبض خفيف لوحدات الثواني */
+
+@keyframes secondsHeartbeat {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(255, 92, 170, 0);
+  }
+
+  15% {
+    box-shadow: 0 0 18px rgba(255, 92, 170, 0.28);
+  }
+
+  45% {
+    box-shadow: 0 0 12px rgba(244, 207, 131, 0.25);
+  }
+}
+
+/* حركة الأرقام عند تحديثها */
+
+@keyframes bump {
+  40% {
+    transform: translateY(-4px) scale(1.08);
+  }
+}
+
+/* نص بداية الحكاية */
+
+.counter-note {
+  margin-top: var(--sp-2);
+
+  color: var(--blush);
+  text-align: center;
+
+  font-family: var(--font-script);
+  font-size: 1.2rem;
+}
+
+/* قسم المناسبة السنوية */
+
+.anniv {
+  margin-top: var(--sp-4);
+  text-align: center;
+}
+
+.anniv h3 {
+  margin-bottom: 0.7rem;
+
+  color: var(--dusty);
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* وحدات العداد السنوي */
+
+.counter-mini .unit {
+  padding: 0.55rem 0.2rem 0.45rem;
+  box-shadow: none;
+}
+
+.counter-mini .unit strong {
+  font-size: clamp(1.2rem, 6vw, 1.7rem);
+}
+
+.counter-mini .unit span {
+  font-size: 0.8rem;
+}
+
+.anniv-note {
+  margin-top: 0.7rem;
+
+  color: var(--blush);
+  font-size: 0.95rem;
+}
+
+/* توهج وحدات العدادات عند المرور عليها */
+
+@media (hover: hover) {
+  .counter .unit:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 28px rgba(232, 184, 94, 0.14);
+  }
+}
+
+/* لمعة تمر على وحدات العدادات */
+
+.counter .unit::after,
+.tl-card::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  border-radius: inherit;
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      115deg,
+      transparent 20%,
+      rgba(255, 255, 255, 0.13) 45%,
+      transparent 70%
+    );
+
+  background-size: 250% 100%;
+  background-position: 100% 0;
+
+  animation: loveShimmer 7s ease-in-out infinite;
+}
+
+@keyframes loveShimmer {
+  0%,
+  70%,
+  100% {
+    background-position: 100% 0;
+  }
+
+  35% {
+    background-position: 0 0;
+  }
+}
+
+
+/* ============================================================
+   09. معرض الصور
+   الصور وإطاراتها والنصوص أسفلها
+   ============================================================ */
+
+/* ترتيب الصور رأسيًا */
+
+.gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-4);
+}
+
+/* إطار الصورة الخارجي */
+
+.photo {
+  width: min(100%, 420px);
+  padding: 12px 12px 8px;
+
+  border-radius: 4px;
+
+  background: var(--cream);
+  box-shadow: var(--shadow);
+
+  rotate: -1.6deg;
+
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+/* إمالة الصور بالتبادل */
+
+.photo:nth-child(even) {
+  rotate: 1.6deg;
+}
+
+/* زر تكبير الصورة */
+
+.photo-btn {
+  display: block;
+  width: 100%;
+  padding: 0;
+
+  border: 0;
+  background: none;
+
+  cursor: zoom-in;
+}
+
+/* المساحة التي تحتوي على الصورة */
+
+.photo-frame {
+  position: relative;
+
+  display: block;
+  width: 100%;
+
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ecd9d4,
+      #e2c3c6
+    );
+
+  border-radius: 3px;
+
+  transition:
+    box-shadow 0.4s ease;
+}
+
+/* الصورة نفسها */
+
+.photo-frame img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transition:
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* النص البديل عند فقدان الصورة */
+
+.photo-fallback {
+  display: none;
+
+  position: absolute;
+  inset: 0;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 1rem;
+
+  color: var(--burgundy-2);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  text-align: center;
+}
+
+/* تُضاف is-missing من JavaScript عند الحاجة */
+
+.is-missing img {
+  display: none;
+}
+
+.is-missing .photo-fallback {
+  display: flex;
+}
+
+.is-missing {
+  cursor: default;
+}
+
+/* وصف الصورة */
+
+.photo figcaption {
+  padding: 0.7rem 0.4rem 0.5rem;
+
+  color: var(--burgundy);
+  text-align: center;
+
+  font-family: var(--font-script);
+  font-size: 1.25rem;
+  line-height: 1.6;
+}
+
+/* تأثيرات الصور عند المرور عليها */
+
+@media (hover: hover) {
+  .photo:hover {
+    transform: translateY(-6px) scale(1.015);
+    box-shadow: 0 26px 50px rgba(0, 0, 0, 0.5);
+  }
+
+  .photo:hover img {
+    transform: scale(1.045);
+  }
+
+  .photo:hover .photo-frame {
+    box-shadow:
+      0 0 0 1px rgba(244, 207, 131, 0.7),
+      0 0 25px rgba(255, 92, 170, 0.2);
+  }
+}
+
+/* منع ظهور تأثير التكبير على الصورة المفقودة */
+
+.is-missing.photo:hover img {
+  transform: none;
+}
+
+
+/* ============================================================
+   10. الخط الزمني للذكريات
+   التواريخ والعناوين والبطاقات والخط الواصل بينها
+   ============================================================ */
+
+/* القائمة الأساسية */
+
+.timeline {
+  position: relative;
+
+  padding-inline-start: 2.6rem;
+
+  list-style: none;
+}
+
+/* الخط الواصل بين المحطات */
+
+.timeline::before {
+  content: "";
+
+  position: absolute;
+  top: 0.4rem;
+  bottom: 0.4rem;
+  inset-inline-start: 0.8rem;
+
+  width: 2px;
+
+  background:
+    linear-gradient(
+      180deg,
+      transparent,
+      var(--gold) 12%,
+      var(--gold) 88%,
+      transparent
+    );
+}
+
+/* كل محطة */
+
+.tl-item {
+  position: relative;
+  margin-bottom: var(--sp-3);
+}
+
+.tl-item:last-child {
+  margin-bottom: 0;
+}
+
+/* نقطة المحطة */
+
+.tl-dot {
+  position: absolute;
+  top: 1.1rem;
+  inset-inline-start: -2.6rem;
+
+  width: 1.7rem;
+  height: 1.7rem;
+
+  display: grid;
+  place-items: center;
+
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+
+  background: var(--plum);
+  color: var(--heart);
+
+  font-size: 0.8rem;
+
+  text-shadow:
+    0 0 8px rgba(255, 92, 170, 0.5),
+    0 0 22px rgba(255, 92, 170, 0.3);
+}
+
+/* بطاقة الذكرى */
+
+.tl-card {
+  position: relative;
+  isolation: isolate;
+
+  padding: 1.1rem 1.2rem;
+
+  border: 1px solid rgba(214, 174, 102, 0.35);
+  border-radius: var(--radius);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0.03)
+    );
+
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.25);
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+/* التاريخ */
+
+.tl-date {
+  display: block;
+  margin-bottom: 0.15rem;
+
+  color: var(--gold);
+  font-size: 0.9rem;
+}
+
+/* عنوان المحطة */
+
+.tl-card h3 {
+  color: var(--cream);
+
+  font-family: var(--font-script);
+  font-size: 1.4rem;
+}
+
+/* نص المحطة */
+
+.tl-card p {
+  margin-top: 0.2rem;
+  color: var(--blush);
+}
+
+/* صورة اختيارية داخل المحطة */
+
+.tl-photo {
+  margin-top: 0.9rem;
+  padding: 8px;
+
+  border-radius: 4px;
+  background: var(--cream);
+
+  rotate: -1deg;
+}
+
+.tl-photo .photo-frame {
+  aspect-ratio: 4 / 3;
+}
+
+/* حركة بسيطة للبطاقات */
+
+@media (hover: hover) {
+  .tl-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* حركة خفيفة للمحطات */
+
+.tl-item {
+  animation: timelineFloat 5s ease-in-out infinite;
+}
+
+.tl-item:nth-child(even) {
+  animation-delay: -2.5s;
+}
+
+@keyframes timelineFloat {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+
+  50% {
+    translate: 0 -4px;
+  }
+}
+
+/* تمييز محطة المالانهاية، وهي آخر محطة */
+
+.timeline .tl-item:last-child .tl-dot {
+  animation: infinityGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes infinityGlow {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 2px var(--love-pink));
+  }
+
+  50% {
+    transform: scale(1.16);
+    filter: drop-shadow(0 0 10px var(--love-pink));
+  }
+}
+
+/* ترتيب الخط الزمني على الشاشات الكبيرة */
+
+@media (min-width: 820px) {
+  .content {
+    max-width: 860px;
+  }
+
+  .timeline {
+    padding-inline-start: 0;
+  }
+
+  .timeline::before {
+    inset-inline-start: 50%;
+    margin-inline-start: -1px;
+  }
+
+  .tl-item {
+    width: 50%;
+    padding-inline-end: 2.4rem;
+  }
+
+  .tl-item:nth-child(even) {
+    margin-inline-start: 50%;
+    padding-inline-end: 0;
+    padding-inline-start: 2.4rem;
+  }
+
+  .tl-dot {
+    inset-inline-start: auto;
+    inset-inline-end: -0.85rem;
+  }
+
+  .tl-item:nth-child(even) .tl-dot {
+    inset-inline-end: auto;
+    inset-inline-start: -0.85rem;
+  }
+}
+
+
+/* ============================================================
+   11. الرسالة والظرف
+   فتح الظرف وإظهار الرسالة وأزرار التحكم
+   ============================================================ */
+
+/* محاذاة قسم الرسالة */
+
+.letter-section {
+  text-align: center;
+}
+
+/* الظرف */
+
+.envelope {
+  position: relative;
+
+  width: min(280px, 78vw);
+  height: 176px;
+
+  margin: var(--sp-3) auto 0;
+
+  perspective: 900px;
+}
+
+/* إظهار الظرف عند استخدام JavaScript */
+
+.js .envelope {
+  display: block;
+}
+
+/* الطبقات الداخلية للظرف */
+
+.env-back,
+.env-front,
+.env-flap,
+.env-paper {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+/* ظهر الظرف */
+
+.env-back {
+  top: 0;
+  bottom: 0;
+
+  border-radius: 6px;
+  background: #5a1830;
+}
+
+/* الورقة داخل الظرف */
+
+.env-paper {
+  top: 10px;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+
+  border-radius: 4px;
+  background: var(--cream);
+
+  transition: transform 0.9s ease 0.45s;
+}
+
+/* الجزء الأمامي من الظرف */
+
+.env-front {
+  top: 0;
+  bottom: 0;
+
+  border-radius: 6px;
+
+  background:
+    linear-gradient(
+      160deg,
+      #7a2745,
+      var(--burgundy-2)
+    );
+
+  clip-path: polygon(
+    0 0,
+    50% 54%,
+    100% 0,
+    100% 100%,
+    0 100%
+  );
+}
+
+/* غطاء الظرف */
+
+.env-flap {
+  top: 0;
+  height: 56%;
+  z-index: 3;
+
+  border-radius: 6px 6px 0 0;
+
+  background:
+    linear-gradient(
+      180deg,
+      #8a2f50,
+      #6b1f3a
+    );
+
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    50% 100%
+  );
+
+  transform-origin: top center;
+  transition: transform 0.8s ease;
+}
+
+/* ختم القلب */
+
+.env-seal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 4;
+
+  width: 38px;
+  height: 38px;
+  margin: -19px 0 0 -19px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #f0d08e,
+      var(--gold-deep)
+    );
+
+  color: var(--burgundy);
+  font-size: 1rem;
+
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+
+  transition: opacity 0.3s ease;
+}
+
+/* فتح غطاء الظرف */
+
+.envelope.open .env-flap {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+/* إخفاء الختم عند الفتح */
+
+.envelope.open .env-seal {
+  opacity: 0;
+}
+
+/* خروج الورقة */
+
+.envelope.open .env-paper {
+  transform: translateY(-34px);
+}
+
+/* زر فتح الرسالة */
+
+.letter-open-btn {
+  margin-bottom: 0.5rem;
+}
+
+/* إخفاء زر الفتح عند عرض الرسالة */
+
+.js .letter-open-btn[aria-expanded="true"] {
+  display: none;
+}
+
+/* لوحة الرسالة المغلقة */
+
+.js .letter-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+
+  opacity: 0;
+
+  transition:
+    grid-template-rows 0.9s ease,
+    opacity 0.7s ease 0.2s;
+}
+
+/* لوحة الرسالة المفتوحة */
+
+.js .letter-panel.open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+/* الحاوية الداخلية للرسالة */
+
+.letter-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* الورقة نفسها */
+
+.letter {
+  max-width: 560px;
+  margin: var(--sp-3) auto 0;
+  padding: 1.8rem 1.4rem 1.2rem;
+
+  border-radius: 6px;
+
+  color: #3a1020;
+  text-align: start;
+
+  background-color: var(--cream);
+
+  background-image:
+    repeating-linear-gradient(
+      transparent 0 2.1rem,
+      rgba(168, 128, 58, 0.18) 2.1rem calc(2.1rem + 1px)
+    );
+
+  box-shadow: var(--shadow);
+  transform-origin: center top;
+}
+
+/* حركة ظهور الورقة عند فتح الرسالة */
+
+.letter-panel.open .letter {
+  animation: letterEntrance 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes letterEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* فقرات الرسالة */
+
+.letter-body p {
+  min-height: 2.1rem;
+  margin-bottom: 1rem;
+
+  font-size: 1.12rem;
+  line-height: 2.1rem;
+}
+
+/* عبارة الحب */
+
+.letter-love {
+  font-family: var(--font-script);
+  font-size: 1.5rem !important;
+}
+
+/* توقيع زياد */
+
+.letter-sign {
+  color: var(--burgundy-2);
+  text-align: end;
+
+  font-family: var(--font-script);
+  font-size: 1.4rem !important;
+}
+
+/* أزرار الرسالة */
+
+.letter-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+
+  margin-top: 0.8rem;
+}
+
+/* مؤشر الكتابة */
+
+.typing-caret::after {
+  content: "▍";
+
+  color: var(--gold-deep);
+  animation: blink 1s steps(2) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+
+/* ============================================================
+   12. الخاتمة وزر العودة للأعلى
+   ============================================================ */
+
+/* نهاية الموقع */
+
+.final {
+  margin-top: var(--sp-5);
+  text-align: center;
+}
+
+/* العبارة الختامية */
+
+.final-line {
+  color: var(--blush);
+
+  font-family: var(--font-script);
+  font-size: clamp(1.5rem, 6.2vw, 2.1rem);
+  line-height: 1.8;
+}
+
+/* أسماء الحبيبين في الخاتمة */
+
+.final-names {
+  margin: var(--sp-2) 0 var(--sp-3);
+
+  color: var(--cream);
+
+  font-family: var(--font-en);
+  font-weight: 700;
+  font-size: clamp(2.2rem, 10vw, 3.4rem);
+
+  text-shadow: 0 0 28px rgba(255, 92, 122, 0.45);
+}
+
+/* نبض قلب الخاتمة */
+
+.final-names span {
+  display: inline-block;
+  animation: heartBeat 1.6s ease-in-out infinite;
+}
+
+/* زر العودة لأعلى الصفحة */
+
+.to-top {
+  position: fixed;
+  z-index: 20;
+
+  bottom: calc(14px + var(--safe-bottom));
+  inset-inline-end: calc(14px + var(--safe-right));
+
+  width: 48px;
+  height: 48px;
+
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+
+  background: var(--plum);
+  color: var(--gold);
+
+  font-size: 1.3rem;
+  cursor: pointer;
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+@media (hover: hover) {
+  .to-top:hover {
+    transform: translateY(-5px);
+  }
+}
+
+
+/* ============================================================
+   13. نافذة تكبير الصور (Lightbox)
+   ============================================================ */
+
+/* طبقة تغطي الشاشة */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding:
+    calc(3.5rem + var(--safe-top))
+    1rem
+    calc(1.5rem + var(--safe-bottom));
+
+  background: rgba(15, 4, 10, 0.92);
+}
+
+/* الصورة والوصف */
+
+.lb-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+
+  max-width: min(94vw, 820px);
+  max-height: 100%;
+}
+
+/* الصورة المكبرة */
+
+.lb-figure img {
+  max-width: 100%;
+  max-height: calc(100vh - 11rem);
+  max-height: calc(100dvh - 11rem);
+
+  object-fit: contain;
+
+  border: 8px solid var(--cream);
+  border-radius: 3px;
+
+  box-shadow: var(--shadow);
+}
+
+/* وصف الصورة المكبرة */
+
+.lb-figure figcaption {
+  color: var(--blush);
+  text-align: center;
+
+  font-family: var(--font-script);
+  font-size: 1.3rem;
+}
+
+/* زر إغلاق الصورة */
+
+.lb-close {
+  position: absolute;
+  top: calc(0.8rem + var(--safe-top));
+  inset-inline-end: calc(0.8rem + var(--safe-right));
+
+  width: 48px;
+  height: 48px;
+
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+
+  background: var(--plum);
+  color: var(--cream);
+
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+
+/* ============================================================
+   14. تأثيرات الظهور أثناء التمرير
+   تُستخدم مع عناصر تحمل class="reveal"
+   ============================================================ */
+
+/* إخفاء العناصر قبل دخولها مجال الرؤية */
+
+.js .reveal:not(.in) {
+  opacity: 0;
+  transform: translateY(26px);
+}
+
+/* الحركة الأساسية للعناصر */
+
+.js .reveal {
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s ease;
+}
+
+/* انتقال الصور مع الحفاظ على تأثير التكبير */
+
+.photo.reveal.in {
+  transition:
+    opacity 0.9s ease,
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+
+/* ============================================================
+   15. لوحة كلمة المرور
+   تنسيق إدخال الباسورد ورسائل الخطأ
+   ============================================================ */
+
+.password-panel {
+  width: min(100%, 340px);
+  margin: 20px auto 0;
+  padding: 24px 18px;
+
+  border: 1px solid rgba(214, 174, 102, 0.55);
+  border-radius: 18px;
+
+  background: rgba(31, 10, 23, 0.9);
+
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+
+  text-align: center;
+
+  animation: passwordAppear 0.4s ease;
+}
+
+/* عنوان لوحة كلمة المرور */
+
+.password-panel h2 {
+  margin-bottom: 12px;
+
+  color: #e8c786;
+  font-size: 1.3rem;
+}
+
+/* النص التوضيحي */
+
+.password-panel p {
+  color: #f4e8ed;
+  line-height: 1.8;
+}
+
+/* ترتيب الحقول والأزرار */
+
+.password-panel form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  margin-top: 18px;
+}
+
+/* حقل كلمة المرور */
+
+.password-panel input {
+  width: 100%;
+  padding: 13px 15px;
+
+  border: 1px solid rgba(214, 174, 102, 0.6);
+  border-radius: 12px;
+
+  outline: none;
+
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+
+  font-size: 1rem;
+  text-align: center;
+  letter-spacing: 4px;
+}
+
+/* النص الإرشادي داخل الحقل */
+
+.password-panel input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: normal;
+}
+
+/* حالة التركيز على حقل كلمة المرور */
+
+.password-panel input:focus {
+  border-color: #e8c786;
+  box-shadow: 0 0 0 3px rgba(232, 199, 134, 0.15);
+}
+
+/* رسالة كلمة المرور الخاطئة */
+
+.password-error {
+  margin: 0;
+
+  color: #ffb3c1 !important;
+  font-size: 0.95rem;
+}
+
+/* ظهور لوحة كلمة المرور */
+
+@keyframes passwordAppear {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* ============================================================
+   16. الشاشات الصغيرة والموبايل
+   ============================================================ */
+
+/* تحسين شكل العدادات على الموبايل */
+
+@media (max-width: 420px) {
+  #counter {
+    gap: 8px;
+  }
+
+  #anniv .counter-mini {
+    gap: 6px;
+  }
+
+  .music-msg {
+    max-width: 150px;
+  }
+}
+
+/* تحسين عرض الصندوق في الوضع الأفقي */
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .gift-screen {
+    gap: 0.6rem;
+  }
+
+  .box {
+    width: min(170px, 30vh);
+    margin-top: 1.8rem;
+  }
+
+  .gift-subtitle {
+    display: none;
+  }
+}
+
+/* تقليل كثافة اللمعات على الموبايل */
+
+@media (max-width: 600px) {
+  .tl-item {
+    animation-duration: 7s;
+  }
+
+  .counter .unit::after,
+  .tl-card::after {
+    animation-duration: 10s;
+  }
+}
+
+
+/* ============================================================
+   17. إعدادات تقليل الحركة
+   احترام تفضيلات المستخدم لتقليل الأنيميشن
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+
+  .js .reveal:not(.in) {
+    opacity: 1;
+    transform: none;
+  }
+
+  .orb {
+    display: none;
+  }
+}

@@ -1,0 +1,926 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <!-- =========================================
+       1. إعدادات الصفحة الأساسية
+       ========================================= -->
+
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+  <meta name="theme-color" content="#1f0a17">
+
+  <!-- عنوان الموقع الذي يظهر في تبويب المتصفح -->
+  <title>حكايتنا | Ziad ♥ Hagar</title>
+
+  <!-- أيقونة الموقع -->
+  <link
+    rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9D%A4%EF%B8%8F%3C/text%3E%3C/svg%3E"
+  >
+
+  <!-- =========================================
+       2. تحميل الخطوط المستخدمة في الموقع
+       ========================================= -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Aref+Ruqaa:wght@400;700&family=Tajawal:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- ملف التنسيقات الرئيسي -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- إخبار CSS بأن JavaScript متاح لتفعيل التأثيرات -->
+  <script>
+    document.documentElement.classList.add("js");
+  </script>
+
+  <!-- بدائل بسيطة لو JavaScript غير متاح -->
+  <noscript>
+    <style>
+      .gift-screen,
+      .letter-open-btn,
+      .envelope,
+      .music-player {
+        display: none !important;
+      }
+    </style>
+  </noscript>
+</head>
+
+<body>
+
+  <!-- =========================================
+       3. مشغل الموسيقى
+       ضع ملف ismi.mp3 في نفس فولدر index.html
+       ========================================= -->
+
+  <audio
+    id="song"
+    src="ismi.mp3"
+    loop
+    preload="auto"
+  ></audio>
+
+
+  <!-- =========================================
+       4. الخلفية والتأثيرات البصرية
+       ambient للخلفية وburst-layer للجزيئات المتحركة
+       ========================================= -->
+
+  <div class="ambient" id="ambient" aria-hidden="true">
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+  </div>
+
+  <div
+    class="burst-layer"
+    id="burst-layer"
+    aria-hidden="true"
+  ></div>
+
+
+  <!-- =========================================
+       5. شاشة الهدية وكلمة المرور
+       ========================================= -->
+
+  <main id="gift-screen" class="gift-screen">
+
+    <!-- أسماء زياد وهاجر أعلى شاشة الهدية -->
+    <h1 class="names" dir="ltr">
+      <span>Ziad</span>
+      <span class="heart" aria-hidden="true">♥</span>
+      <span>Hagar</span>
+    </h1>
+
+    <!-- العبارة الموجودة فوق الصندوق -->
+    <p class="gift-subtitle">
+      في حكاية نفسي تفضلي فاكرها دايمًا…
+    </p>
+
+    <!-- صندوق الهدية: الغطاء والجسم واللمعة -->
+    <div id="box" class="box" aria-hidden="true">
+
+      <!-- الإضاءة المحيطة بالصندوق -->
+      <div class="glow"></div>
+
+      <!-- غطاء الصندوق والشريط والفيونكة -->
+      <div class="lid">
+        <div class="lid-ribbon"></div>
+
+        <div class="bow">
+          <i></i>
+          <i></i>
+          <b></b>
+        </div>
+      </div>
+
+      <!-- جسم الصندوق والشريط والبطاقة -->
+      <div class="body">
+        <div class="body-ribbon"></div>
+        <div class="tag">حكايتنا</div>
+      </div>
+
+    </div>
+
+    <!-- زر بدء فتح الهدية -->
+    <button
+      id="open-btn"
+      class="btn btn-gold"
+      type="button"
+    >
+      افتح الهدية
+    </button>
+
+    <!-- لوحة إدخال كلمة المرور -->
+    <div
+      id="password-panel"
+      class="password-panel"
+      hidden
+    >
+
+      <h2>سر صغير بيني وبينك ❤️</h2>
+
+      <p>
+        اكتبي الباسورد عشان تفتحي هديتك يا هاجر
+      </p>
+
+      <form id="password-form">
+
+        <!-- حقل كلمة المرور -->
+        <input
+          id="password-input"
+          type="password"
+          inputmode="numeric"
+          maxlength="6"
+          placeholder="اكتبي الباسورد هنا"
+          aria-label="باسورد الهدية"
+          autocomplete="off"
+          required
+        >
+
+        <!-- زر التحقق من كلمة المرور -->
+        <button
+          class="btn btn-gold"
+          type="submit"
+        >
+          افتحي قلبي ❤️
+        </button>
+
+        <!-- رسالة الخطأ عند إدخال كلمة مرور غير صحيحة -->
+        <p
+          id="password-error"
+          class="password-error"
+          hidden
+        >
+          الباسورد مش صح يا قمر، جربي تاني ❤️
+        </p>
+
+      </form>
+    </div>
+
+  </main>
+
+
+  <!-- =========================================
+       6. مشغل الموسيقى العائم
+       JavaScript يتحكم في التشغيل والإيقاف
+       ========================================= -->
+
+  <div
+    id="music-player"
+    class="music-player"
+    hidden
+  >
+
+    <button
+      id="music-btn"
+      class="music-btn"
+      type="button"
+      aria-pressed="false"
+      aria-label="تشغيل الموسيقى"
+    >
+
+      <!-- شكل أسطوانة الموسيقى -->
+      <span
+        class="vinyl"
+        id="vinyl"
+        aria-hidden="true"
+      >
+        <span class="vinyl-label">♪</span>
+      </span>
+
+      <!-- رمز حالة الموسيقى -->
+      <span
+        class="music-state"
+        id="music-state"
+        aria-hidden="true"
+      >▶</span>
+
+    </button>
+
+    <!-- رسالة حالة تشغيل الموسيقى أو وجود مشكلة -->
+    <p
+      id="music-msg"
+      class="music-msg"
+      role="status"
+      hidden
+    ></p>
+
+  </div>
+
+
+  <!-- =========================================
+       7. المحتوى الرئيسي للموقع
+       يظهر بعد فتح الهدية حسب منطق JavaScript
+       ========================================= -->
+
+  <div id="content" class="content">
+
+
+    <!-- =========================================
+         7.1 المقدمة والترحيب
+         ========================================= -->
+
+    <header class="intro reveal">
+
+      <!-- أسماء أصحاب الحكاية -->
+      <p class="intro-names" dir="ltr">
+        Ziad <span>♥</span> Hagar
+      </p>
+
+      <h1 id="intro-title" tabindex="-1">
+        حكايتنا
+      </h1>
+
+      <p class="intro-text">
+        الموقع ده هدية صغيرة من زياد لهاجر…
+        مكان بسيط نحتفظ فيه بحكايتنا.
+      </p>
+
+    </header>
+
+
+    <!-- =========================================
+         7.2 عداد مدة الحكاية
+         القيم تتحدث من خلال script.js
+         ========================================= -->
+
+    <section
+      class="section counter-section reveal"
+      aria-labelledby="counter-title"
+    >
+
+      <h2 id="counter-title">
+        بقالنا قد إيه في الحكاية؟
+      </h2>
+
+      <!-- العداد الأساسي: الأيام والساعات والدقائق والثواني -->
+      <div class="counter" id="counter">
+
+        <div class="unit">
+          <strong id="c-days">0</strong>
+          <span>يوم</span>
+        </div>
+
+        <div class="unit">
+          <strong id="c-hours">00</strong>
+          <span>ساعة</span>
+        </div>
+
+        <div class="unit">
+          <strong id="c-minutes">00</strong>
+          <span>دقيقة</span>
+        </div>
+
+        <div class="unit unit-seconds">
+          <strong id="c-seconds">0</strong>
+          <span>ثانية</span>
+        </div>
+
+      </div>
+
+      <!-- وصف تاريخ بداية الحكاية -->
+      <p class="counter-note" id="counter-note">
+        من يوم ٥ أغسطس ٢٠٢٥، والحكاية مكمّلة.
+      </p>
+
+
+      <!-- -----------------------------------------
+           العداد السنوي لعيد الحكاية
+           تاريخ المناسبة وطريقة الحساب في script.js
+           ----------------------------------------- -->
+
+      <div class="anniv" id="anniv">
+
+        <h3>باقي على عيد حكايتنا</h3>
+
+        <div class="counter counter-mini">
+
+          <div class="unit">
+            <strong id="a-days">0</strong>
+            <span>يوم</span>
+          </div>
+
+          <div class="unit">
+            <strong id="a-hours">00</strong>
+            <span>ساعة</span>
+          </div>
+
+          <div class="unit">
+            <strong id="a-minutes">00</strong>
+            <span>دقيقة</span>
+          </div>
+
+          <div class="unit">
+            <strong id="a-seconds">00</strong>
+            <span>ثانية</span>
+          </div>
+
+        </div>
+
+        <p class="anniv-note" id="anniv-note"></p>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================================
+         7.3 معرض الصور والذكريات
+         غيّر الصور داخل فولدر images
+         =========================================
+
+         الصورة الأولى: images/1.jpg
+         الصورة الثانية: images/2.jpg
+         الصورة الثالثة: images/3.jpg
+         الصورة الرابعة: images/4.jpg
+
+         لتغيير وصف الصورة، عدّل alt.
+         لتغيير العبارة أسفلها، عدّل figcaption.
+         عند الضغط على الصورة، يتولى JavaScript فتحها بالحجم الكبير.
+         ========================================= -->
+
+    <section
+      class="section gallery-section"
+      aria-labelledby="gallery-title"
+    >
+
+      <h2 id="gallery-title" class="reveal">
+        لحظات من حكايتنا
+      </h2>
+
+      <div class="gallery">
+
+
+        <!-- الصورة الأولى -->
+        <figure class="photo reveal">
+
+          <button
+            class="photo-btn"
+            type="button"
+            aria-label="كبّري الصورة الأولى"
+          >
+
+            <span class="photo-frame">
+
+              <img
+                src="images/1.jpg"
+                alt="الصورة الأولى من ذكرياتنا"
+                loading="lazy"
+                decoding="async"
+                width="800"
+                height="1000"
+              >
+
+              <!-- يظهر عند عدم توفر الصورة حسب تنسيقات CSS -->
+              <span class="photo-fallback">
+                الصورة هتظهر هنا<br>
+                images/1.jpg
+              </span>
+
+            </span>
+
+          </button>
+
+          <figcaption>
+            لحظة حلوة بتفضل في القلب
+          </figcaption>
+
+        </figure>
+
+
+        <!-- الصورة الثانية -->
+        <figure class="photo reveal">
+
+          <button
+            class="photo-btn"
+            type="button"
+            aria-label="كبّري الصورة التانية"
+          >
+
+            <span class="photo-frame">
+
+              <img
+                src="images/2.jpg"
+                alt="الصورة التانية من ذكرياتنا"
+                loading="lazy"
+                decoding="async"
+                width="800"
+                height="1000"
+              >
+
+              <span class="photo-fallback">
+                الصورة هتظهر هنا<br>
+                images/2.jpg
+              </span>
+
+            </span>
+
+          </button>
+
+          <figcaption>
+            ضحكة بتفرق في اليوم
+          </figcaption>
+
+        </figure>
+
+
+        <!-- الصورة الثالثة -->
+        <figure class="photo reveal">
+
+          <button
+            class="photo-btn"
+            type="button"
+            aria-label="كبّري الصورة التالتة"
+          >
+
+            <span class="photo-frame">
+
+              <img
+                src="images/3.jpg"
+                alt="الصورة التالتة من ذكرياتنا"
+                loading="lazy"
+                decoding="async"
+                width="800"
+                height="1000"
+              >
+
+              <span class="photo-fallback">
+                الصورة هتظهر هنا<br>
+                images/3.jpg
+              </span>
+
+            </span>
+
+          </button>
+
+          <figcaption>
+            ذكرى بنحبها
+          </figcaption>
+
+        </figure>
+
+
+        <!-- الصورة الرابعة -->
+        <figure class="photo reveal">
+
+          <button
+            class="photo-btn"
+            type="button"
+            aria-label="كبّري الصورة الرابعة"
+          >
+
+            <span class="photo-frame">
+
+              <img
+                src="images/4.jpg"
+                alt="الصورة الرابعة من ذكرياتنا"
+                loading="lazy"
+                decoding="async"
+                width="800"
+                height="1000"
+              >
+
+              <span class="photo-fallback">
+                الصورة هتظهر هنا<br>
+                images/4.jpg
+              </span>
+
+            </span>
+
+          </button>
+
+          <figcaption>
+            ولسه فيه أحلى جاي
+          </figcaption>
+
+        </figure>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================================
+         7.4 الخط الزمني لمحطات الحكاية
+         كل tl-item تمثل ذكرى مستقلة
+         =========================================
+
+         لإضافة ذكرى جديدة:
+         انسخ عنصر <li class="tl-item reveal"> كاملًا،
+         ثم عدّل التاريخ والعنوان والوصف.
+
+         لإضافة صورة لذكرى:
+         أضف عنصر صورة داخل tl-card مع تنسيق CSS المناسب.
+         ========================================= -->
+
+    <section
+      class="section timeline-section"
+      aria-labelledby="timeline-title"
+    >
+
+      <h2 id="timeline-title" class="reveal">
+        حكايتنا في محطات
+      </h2>
+
+      <ol class="timeline">
+
+
+        <!-- المحطة الأولى: بداية الحكاية -->
+        <li class="tl-item reveal">
+
+          <span class="tl-dot" aria-hidden="true">♥</span>
+
+          <article class="tl-card">
+
+            <time
+              class="tl-date"
+              datetime="2025-08-05"
+            >
+              ٥ أغسطس ٢٠٢٥
+            </time>
+
+            <h3>بداية الحكاية</h3>
+
+            <p>
+              في اليوم ده بدأت حكايتنا، ويمكن وقتها مكنتش أعرف
+              إن اليوم ده هيكون بداية لذكريات غالية على قلبي.
+              ومن هنا بدأت حكاية اسمها زياد وهاجر،
+              حكاية نفسي تكمل وتكبر يوم بعد يوم. ❤️
+            </p>
+
+          </article>
+
+        </li>
+
+
+        <!-- المحطة الثانية: أول خروجة سوا -->
+        <li class="tl-item reveal">
+
+          <span class="tl-dot" aria-hidden="true">♥</span>
+
+          <article class="tl-card">
+
+            <time
+              class="tl-date"
+              datetime="2025-09-23"
+            >
+              ٢٣ سبتمبر ٢٠٢٥
+            </time>
+
+            <h3>أول خروجة سوا ❤️</h3>
+
+            <p>
+              اليوم اللي خرجنا فيه سوا لأول مرة،
+              وكان من اللحظات اللي هتفضل مميزة في حكايتنا.
+              تفاصيل بسيطة، وضحكة من القلب،
+              وذكرى كل ما أفتكرها هبتسم.
+              كانت خطوة جديدة في حكايتنا،
+              ونفسي نعيش سوا ذكريات أحلى وأحلى. ❤️
+            </p>
+
+            <!--
+              لإضافة صورة لهذه الذكرى، أزل علامات التعليق
+              وعدّل مسار الصورة والوصف.
+
+              <div class="tl-photo">
+                <span class="photo-frame">
+                  <img
+                    src="images/timeline-2.jpg"
+                    alt="صورة من أول خروجة"
+                    loading="lazy"
+                    decoding="async"
+                    width="800"
+                    height="600"
+                  >
+                  <span class="photo-fallback">
+                    الصورة هتظهر هنا
+                  </span>
+                </span>
+              </div>
+            -->
+
+          </article>
+
+        </li>
+
+
+        <!-- المحطة الثالثة: عيد ميلاد هاجر -->
+        <li class="tl-item reveal">
+
+          <span class="tl-dot" aria-hidden="true">♥</span>
+
+          <article class="tl-card">
+
+            <time
+              class="tl-date"
+              datetime="2026-01-29"
+            >
+              ٢٩ يناير ٢٠٢٦
+            </time>
+
+            <h3>
+              اليوم اللي اتولدت فيه أجمل واحدة ❤️🎂
+            </h3>
+
+            <p>
+              29 يناير مش مجرد يوم عادي، ده اليوم اللي اتولدت
+              فيه واحدة وجودها بيفرق معايا، وضحكتها بتخلّي
+              الدنيا أحلى. كل سنة وإنتِ طيبة يا هاجر،
+              وكل سنة وإنتِ أقرب لقلبي، وكل سنة وضحكتك منوّرة
+              حياتك وحياة كل اللي بيحبوكي.
+
+              أتمنى أشوفك دايمًا مبسوطة، وأكون سبب في ابتسامتك
+              ولو بحاجة بسيطة. ويا رب كل عيد ميلاد ليكي يكون
+              مليان فرحة وحب وذكريات حلوة، ونفضل نحتفل بيه
+              سوا سنين كتير.
+
+              بحبك يا أجمل هدية في الدنيا. ❤️🎂
+            </p>
+
+          </article>
+
+        </li>
+
+
+        <!-- المحطة الرابعة: وعد للمستقبل والمالانهاية -->
+        <li class="tl-item reveal">
+
+          <span class="tl-dot" aria-hidden="true">∞</span>
+
+          <article class="tl-card">
+
+            <time class="tl-date">
+              للمالانهاية ♾️
+            </time>
+
+            <h3>
+              أنا وإنتِ… وحكاية ملهاش آخر ❤️
+            </h3>
+
+            <p>
+              يا هاجر، ❤️
+
+              لو كان بإيدي أختار حاجة واحدة تفضل معايا طول العمر،
+              هختار إني أفضل أشوفك مبسوطة، وأكون جنبك في أيامك
+              الحلوة قبل الصعبة، وأشاركك ضحكتك وأخفف عنك أي زعل.
+
+              مش عايز حكايتنا تبقى مجرد شوية ذكريات حلوة نفتكرها،
+              أنا نفسي نفضل نصنع ذكريات جديدة، ونكبر سوا،
+              وكل ما السنين تعدّي نكتشف إن لسه عندنا حاجات كتير نعيشها.
+
+              يمكن كلمة "للأبد" كبيرة، بس اللي أتمناه إن كل يوم جديد
+              يديني فرصة أحبك وأقدّرك أكتر من اليوم اللي قبله.
+
+              إنتِ جزء جميل من حكايتي، ونفسي أفضل أكتب معاكي باقي
+              الفصول… مش النهارده بس، لكن بكرة وبعده،
+              وللمالانهاية. ♾️❤️
+            </p>
+
+          </article>
+
+        </li>
+
+      </ol>
+
+    </section>
+
+
+    <!-- =========================================
+         7.5 رسالة الحب والظرف المتحرك
+         =========================================
+
+         النص الأساسي موجود داخل letter-body.
+         غيّر الفقرات هناك لتعديل الرسالة.
+         الأزرار تتحكم في فتح الرسالة وإعادة قراءتها وإغلاقها.
+         ========================================= -->
+
+    <section
+      class="section letter-section reveal"
+      aria-labelledby="letter-title"
+    >
+
+      <h2 id="letter-title">
+        رسالة صغيرة
+      </h2>
+
+      <!-- زر فتح الرسالة -->
+      <button
+        id="letter-open"
+        class="btn btn-gold letter-open-btn"
+        type="button"
+        aria-expanded="false"
+        aria-controls="letter-panel"
+      >
+        في رسالة ليكي 💌
+      </button>
+
+      <!-- عناصر الظرف المستخدم في الأنيميشن -->
+      <div
+        class="envelope"
+        id="envelope"
+        aria-hidden="true"
+      >
+        <div class="env-back"></div>
+        <div class="env-paper"></div>
+        <div class="env-front"></div>
+        <div class="env-flap"></div>
+        <span class="env-seal">♥</span>
+      </div>
+
+      <!-- لوحة الرسالة -->
+      <div id="letter-panel" class="letter-panel">
+
+        <div class="letter-inner">
+
+          <article class="letter" id="letter">
+
+            <!-- نص الرسالة القابل للتعديل -->
+            <div id="letter-body" class="letter-body">
+
+              <p>يا هاجر،</p>
+
+              <p>
+                يمكن الكلام مش دايمًا بيعرف يوصف كل اللي جوانا،
+                بس حبيت أعملك حاجة صغيرة تفضل ذكرى حلوة لينا.
+              </p>
+
+              <p>
+                كل لحظة حلوة بتجمعنا ليها مكانة خاصة عندي،
+                ونفسي تفضل حكايتنا مليانة ضحك وذكريات وأيام أجمل.
+              </p>
+
+              <p>
+                دي مش نهاية الحكاية، دي لسه البداية.
+              </p>
+
+              <p class="letter-love">
+                بحبك ❤️
+              </p>
+
+              <p class="letter-sign">
+                زياد
+              </p>
+
+            </div>
+
+            <!-- أزرار التحكم في الرسالة -->
+            <div class="letter-actions">
+
+              <button
+                id="letter-replay"
+                class="btn btn-ghost"
+                type="button"
+              >
+                اقرأيها تاني
+              </button>
+
+              <button
+                id="letter-close"
+                class="btn btn-ghost"
+                type="button"
+              >
+                اقفلي الرسالة
+              </button>
+
+            </div>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================================
+         7.6 الخاتمة والرجوع للبداية
+         ========================================= -->
+
+    <footer class="final reveal">
+
+      <p class="final-line">
+        دي مش نهاية الحكاية… دي لسه البداية ❤️
+      </p>
+
+      <p class="final-names" dir="ltr">
+        Ziad <span>♥</span> Hagar
+      </p>
+
+      <!-- يعيد المستخدم إلى بداية التجربة -->
+      <button
+        id="restart-btn"
+        class="btn btn-gold"
+        type="button"
+      >
+        ارجعي للبداية
+      </button>
+
+    </footer>
+
+  </div>
+
+
+  <!-- =========================================
+       8. زر الرجوع لأعلى الصفحة
+       يظهر أو يختفي حسب منطق JavaScript
+       ========================================= -->
+
+  <button
+    id="to-top"
+    class="to-top"
+    type="button"
+    aria-label="الرجوع لأعلى الصفحة"
+    hidden
+  >
+    ↑
+  </button>
+
+
+  <!-- =========================================
+       9. نافذة عرض الصور بالحجم الكبير (Lightbox)
+       =========================================
+
+       JavaScript يضع الصورة المختارة داخل lb-img،
+       ويعرض وصفها داخل lb-caption.
+       زر lb-close يغلق النافذة.
+       ========================================= -->
+
+  <div
+    id="lightbox"
+    class="lightbox"
+    role="dialog"
+    aria-modal="true"
+    aria-label="عرض الصورة"
+    hidden
+  >
+
+    <!-- زر إغلاق الصورة المكبرة -->
+    <button
+      id="lb-close"
+      class="lb-close"
+      type="button"
+      aria-label="إغلاق الصورة"
+    >
+      ✕
+    </button>
+
+    <!-- الصورة ووصفها -->
+    <figure class="lb-figure">
+
+      <img
+        id="lb-img"
+        src=""
+        alt=""
+      >
+
+      <figcaption id="lb-caption"></figcaption>
+
+    </figure>
+
+  </div>
+
+
+  <!-- =========================================
+       10. ملف JavaScript
+       يحتوي على التفاعلات والعدادات والأنيميشن
+       ========================================= -->
+
+  <script src="script.js"></script>
+
+</body>
+</html>
